@@ -1,0 +1,53 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+    <h1 class="text-2xl">Chat Admin</h1>
+
+    {% if perms.user.add_user %}
+    <div class="mt-8">
+        <h2 class="mb-4 text-lg">Users</h2>
+
+        <a href="{% url 'chat:add_user' %}" class="inline-block py-2 px-4 bg-rose-600 text-white rounded-xl">Add User</a>
+        <br> <br>
+        <div class="mt-6 overflow-x-auto">
+            <table class="w-full table-auto border-collapse border border-gray-300">
+                <thead>
+                    <tr class="bg-gray-100 text-left">
+                        <th class="px-4 py-2 border border-gray-300">Name</th>
+                        <th class="px-4 py-2 border border-gray-300">Email</th>
+                        <th class="px-4 py-2 border border-gray-300">Role</th>
+                        <th class="px-4 py-2 border border-gray-300 text-right">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in users %}
+                    <tr class="{% cycle 'bg-white' 'bg-gray-50' %}">
+                        <td class="px-4 py-2 border border-gray-300">
+                            <a href="{% url 'chat:user_detail' user.pk %}">{{ user.name }}</a>
+                        </td>
+                        <td class="px-4 py-2 border border-gray-300">{{ user.email }}</td>
+                        <td class="px-4 py-2 border border-gray-300">{{ user.get_role_display }}</td>
+                        <td class="px-4 py-2 border border-gray-300 text-right">
+                            {% if perms.user.edit_user %}
+                                <a href="{% url 'chat:edit_user' user.pk %}" class="text-blue-600 underline">Edit</a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    {% endif %}
+
+    <hr class="my-6">
+<br>
+    <div class="mt-8">
+        <h2 class="mb-4 text-lg">Rooms</h2>
+        {% include 'chat/partials/room_list.html' %}
+    </div>
+    
+{% endblock %}
+

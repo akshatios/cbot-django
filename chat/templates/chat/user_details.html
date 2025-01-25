@@ -1,0 +1,13 @@
+{% extends 'core/base.html' %}
+
+{% load static chatextras %}
+
+{% block content %}
+    <h1>User Detail</h1>
+    <p><strong>Name:</strong> {{ user.name }}</p>
+    <p><strong>Email:</strong> {{ user.email }}</p>
+    <p><strong>Role:</strong> {{ user.get_role_display }}</p>
+    <a href="{% url 'chat:admin' %}">Back to Admin</a>
+
+
+{% endblock %}
